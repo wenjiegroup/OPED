@@ -1,0 +1,112 @@
+{#{% extends 'base.html' %}#}
+
+{% load static %}
+{#{% block title %}#}
+{#    PegRNA Predict#}
+{#{% endblock %}#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {#    Boostrap core CSS#}
+    <link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+
+{#Custom fronts for this template#}
+{% block css %}{% endblock %}
+    <link href="{% static 'fontawesome-free/css/all.min.css' %}" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet" />
+    	<!-- Custom styles for this template -->
+	<link href="{% static 'bootstrap/css/index.min.css' %}" rel="stylesheet" />
+
+
+{# Custom  style for this template #}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/index.min.css' %}" />
+
+</head>
+<body>
+{#<div class="pre">#}
+<div class="input-group input-group-lg">
+    <form action="/pegRNA_PredictingCodes/" method="post">
+        {% csrf_token %}
+
+        <table  id="table" class="input-group input-group-lg table text-nowrap" style="vertical-align: middle">
+            <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">Target</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter Target sequence" aria-describedby="sizing-addon1" name="Target">
+                </td>
+            </tr>
+                 <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">PBS</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter PBS sequence" aria-describedby="sizing-addon1" name="PBS">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">RT</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter Target sequence" aria-describedby="sizing-addon1" name="RT">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                   <p> <input type="submit"  class="form-control"  value="submit" ></p>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+
+
+
+        </table>
+
+
+    </form>
+
+
+    <h1>提交字段确认</h1>
+    <table border="1">
+        <tr>
+            <td>Target</td>
+            <td>PBS</td>
+            <td>RT</td>
+            <td>result</td>
+        </tr>
+        <tr>
+        {% for i in info_list %}
+            <tr>
+
+            <td>{{ i.Target }}</td>
+            <td>{{ i.PBS }}</td>
+            <td>{{ i.RT }}</td>
+                <td>{{ i.result }}</td>
+            <td></td>
+            </tr>
+        {% endfor %}
+
+        </tr>
+
+    </table>
+{#    <div>#}
+{#        <h1>结果</h1>#}
+{#        <h2>{{result}}</h2>#}
+{#    </div>#}
+</div>
+
+
+
+</body>
+</html>

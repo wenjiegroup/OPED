@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="pegRNA_predict" />
+	<meta name="author" content="Hu Jiongsong" />
+    <title>{% block title %}{% endblock %}</title>
+
+{#    Boostrap core CSS#}
+    <link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+
+{#Custom fronts for this template#}
+{% block css %}{% endblock %}
+    <link href="{% static 'fontawesome-free/css/all.min.css' %}" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet" />
+    	<!-- Custom styles for this template -->
+	<link href="{% static 'bootstrap/css/index.min.css' %}" rel="stylesheet" />
+
+
+{# Custom  style for this template #}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/index.min.css' %}" />
+
+</head>
+
+
+
+{##base tempate including nav body foot#}
+<body id="page-top"
+      style="width:100%;height: 100%;margin:0;padding: 0;background:-webkit-linear-gradient(rgba(224,229,223,0.9),rgba(224,229,223,0))";>
+
+    <nav class="navbar navbar-expand-lg navbar-light text-white-50 " name="mainNav">
+{#        navigator#}
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" style="letter-spacing:1rem" href="/home/">OPED</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto ">
+                <li>
+                    <a class="nav-link js-scroll-trigger" href="/home/">HOME</a>
+                </li>
+                <li ></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">OPED</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item"  href="{%url 'qsub_file_update' %}">SEQUENCE</a>
+                        <a class="dropdown-item" href="{% url 'qsub_file_pos' %}">POSITION</a>
+
+                    </div>
+
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">OPEDVar</a>
+                    <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'OPEDVar'%}">OPEDVar</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+    {% block header %}
+    {% endblock %}
+
+<main>
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+{#Bootstrap core JavaScript#}
+    <script src="{% static 'bootstrap/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+{#Plugin JavaScript#}
+    <script src="{% static 'bootstrap/jquery-easing/jquery.easing.min.js' %}"></script>
+
+{#Custom scripts for this templates#}
+    <script src="{% static 'bootstrap/js/index.min.js' %}"></script>
+</body>
+<footer class="big text-light text-center text-black-100 " style="margin-top:auto;background:-webkit-linear-gradient(rgba(224,229,223,0),rgba(224,229,223,0.9))" >
+    <div class="container text-black-50" >
+        Copyright @ hjs 2021
+    </div>
+
+</footer>
+</html>

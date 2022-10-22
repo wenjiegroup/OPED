@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+    <script src="../pegsub/static/js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div id="app">
+
+  {% verbatim %} {message}{% endverbatim %}
+</div>
+
+<script type="text/javascript">
+    {#vue数据与方法#}
+    {#定义数据对象data#}
+    {#唯一例外是用#}
+    var data={a:1}
+    var vm=new Vue({
+        e1:"#app",
+        data:data
+     });
+    vm.a="test";
+    data.a=vm.a
+    vm.$data.a="test...."
+    vm.$watch('a',function (newVal,oldVal){
+        console.log(newVal,oldVal);
+    })
+</script>
+</body>
+</html>

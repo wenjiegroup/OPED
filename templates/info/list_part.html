@@ -1,0 +1,42 @@
+{% for v in result_list %}
+    <tr>
+        <td><input name="chk[]" type="checkbox" value="{{ v.article_id }}"></td>
+        <td>{{ forloop.counter }}</td><!--编号-->
+        <td>{{ v.article_title }}</td>
+        <td>{{ v.article_addtime }}</td>
+        <td>{{ v.article_clicknum }}</td>
+        <td>{{ v.article_praise_num }}</td>
+        <td>{{ v.member.member_name }}</td>
+
+
+    </tr>
+{% endfor %}
+<tr>
+    <td colspan="10">
+        <div class="pagin">
+            <div class="message">共<i class="blue">{{ num }}</i>条记录，当前显示第&nbsp<i
+                    class="blue">{{ currentPage }}&nbsp</i>页
+            </div>
+            <ul class="paginList">
+                {% if articles_list.has_previous %}
+                    <li class="paginItem"><a
+                            href="/back/article/list_part/?page={{ articles_list.previous_page_number }}"><span
+                            class="pagepre"></span></a></li>
+                {% endif %}
+                {% for num in pageRange %}
+                    <li class="paginItem {% if num == currentPage %}current{% endif %}"><a
+                            href="/back/article/list_part/?page={{ num }}">{{ num }}</a></li>
+                {% endfor %}
+                {% if articles_list.has_next %}
+                    <li class="paginItem"><a
+                            href="/back/article/list_part/?page={{ articles_list.next_page_number }}"><span
+                            class="pagenxt"></span></a></li>
+                {% endif %}
+            </ul>
+        </div>
+        </div>
+
+
+    </td>
+
+</tr>

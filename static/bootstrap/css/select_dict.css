@@ -1,0 +1,14 @@
+
+.select_dict b{
+    -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+  color: #1FAD9F;
+}
+
+.select_dict_b{
+  background-color: #9EF5EE;
+  width: 185px;
+}
+
+

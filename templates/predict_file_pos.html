@@ -1,0 +1,476 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+<link href="{% static 'bootstrap/css/signup.css' %}" rel="stylesheet"/>
+<link href="{% static 'bootstrap/js/bootstrap.js' %}"rel="stylesheet" />
+<link rel="stylesheet" href="{%static 'boostrap/jquery/jquery.js'%} "/>
+<link rel="stylesheet" href="{% static 'bootstrap/css/predict_file.css' %}">
+<link rel="stylesheet" href="{% static 'boostrap/css/select_dict.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://igv.org/web/release/2.0.1/dist/igv.min.js"></script>
+{#igvjs 引用#}
+<script>
+    var
+</script>
+{% block title %}
+    Predict_position
+{% endblock %}
+{% block header %}
+    <style type="text/css">
+.b{
+  background-color: #66cccc;
+ -webkit-box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 0.50rem 2rem;
+  font-family: "Varela Round";
+  font-size: 80%;
+
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 0;
+
+}
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+    </body>
+    <section id="projects" class="projects-section bg-light  "
+    style="background:-webkit-linear-gradient(rgba(224,229,223,0.9),rgba(224,229,223,0))"
+    >
+    <div class="container" class="form-predict_file ">
+{#        <div class="form-inline">#}
+    <form action="/pegRNA_file_pos/" method="post" class="span4 ">
+        {% csrf_token %}
+
+            <h4 class="text-black-50"style="">Enter the position</h4>
+           <div class="accordion" id="accordion">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a href="#usage" class="accordion-toggle btn-primary btn" data-toggle="collapse">View an example input</a>
+                    </div>
+            <div id="usage" class="collapse accordion-body">
+            <h6 class="text-black-50">
+
+                # 用户输入待编辑的染色体($chr)和起始位点($start_position)以及编辑模式($edit_pattern),其中编辑模式以/或+或-三种符号开头，后面是具体的碱基序列。
+                <br>
+                # 若编辑模式以/开头，代表碱基替换，例如/A，则表示将染色体起始位点上的碱基替换成A（被替换的碱基和替换的碱基不能相同，否则操作无意义，后面的代码会进行检查和提示）
+                <br>
+                # 若编辑模式以+开头，代表碱基插入，例如+ATGCC，则表示在染色体起始位点的碱基后插入ATGCC
+                <br>
+                # 若编辑模式以-开头，代表碱基删除，例如-GAG，则表示在染色体起始位点的碱基后删除GAG（被删除的序列需要本来就存在，不然无法进行删除，后面的代码会进行检查和提示）
+                <br>
+                # 例如：对于用户输入的染色体起始位点chr1-943995（943995是碱基C，其后的连续20个碱基分别是GAGAACTCGGCACAGGAGAG）
+                <br>
+                # 如果要将chr1-943995上的C替换成T,那么用户输入的编辑模式为/T；
+                <br>
+                # 如果要在chr1-943995上的C之后插入GTATT,那么用户输入的编辑模式为+GTATT；
+                <br>
+                # 如果要将chr1-943995上的C之后的GAGAACTCGG删除,那么用户输入的编辑模式为-GAGAACTCGG；
+                <br>
+                # 另外对于PAM($pam_type)，让用户可以在网页选择是NGG还是NG这两种的哪种(默认为NGG)
+                <br>
+                # 对于切口位点到编辑位点的最大距离($dis_nickase)，让用户可以在网页选择设定（默认为10）
+                <br>
+                # 对于PBS的长度范围（$min_len_PBS，$max_len_PBS），让用户可以在网页选择设定（默认分别为8，17）
+                <br>
+                # 对于RT的长度范围（$min_len_RT，$max_len_RT），让用户可以在网页选择设定（默认分别为8，24）
+            </h6>
+            </div>
+           </div>
+           </div>
+          <h2>&nbsp;</h2>
+
+
+                <div class="accordion-group",id="accordion_parameter">
+              <div class="accordion-heading">
+                        <a href="#select_dict" class="accordion-toggle btn-primary btn" data-toggle="collapse">More Parameters</a>
+                    </div>
+            <h2>
+
+            </h2>
+        <div id="select_dict" class="collapse accordion-body">
+            <span class="form-inline">
+                <b class="b text-white col-lg-3 text-center">PAM</b>
+            &nbsp
+            <select name="pam_type" class="select2-selection--multiple" aria-label="pam_type">
+                        <option value="NGG">NGG</option>
+                        <option value="NG">NG</option>
+                    </select>
+{#                &nbsp&nbsp#}
+                 <b class="b text-white col-lg-3 text-center" style="margin-left: 20px">Maximum EDIT-TO-NICK DISTANCE</b>
+                &nbsp
+                <input type="text"  class="" style="width: 30px" placeholder="10"  value="10" name="dis_nickase">
+                &nbsp&nbsp
+                </span>
+                <h1></h1>
+                <span id="max_length"class="form-inline">
+                <b class="b text-white col-lg-3 text-center" >Maximum PBS length</b>
+                    &nbsp
+                <input type="text"  class="" style="width: 30px" placeholder="17" value="17" name="max_len_PBS">
+{#                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp#}
+                    <b class="b text-white col-lg-3 text-center" style="margin-left: 50px">Maximum RTT length</b>
+                     &nbsp
+                        <input type="text"  class="" style="width: 30px" placeholder="24" value="24" name="max_len_RT">
+            </span>
+            <h1></h1>
+                  <span id="min_length"class="form-inline">
+
+                <b class="b text-white col-lg-3 text-center" >Minimum PBS length </b>&nbsp
+                <input type="text"  class="" style="width: 30px" placeholder=8 value="8" name="min_len_PBS">
+{#                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp#}
+                    <b class="b text-white col-lg-3 text-center" style="margin-left: 50px" >Minimum RTT length</b>
+                      &nbsp
+                        <input type="text"  class="" style="width: 30px" placeholder=8 value="8"name="min_len_RT">
+            </span>
+            <h1></h1>
+                        <span id="top_n"class="form-inline">
+
+                <b class="b text-white col-lg-3 text-center " style="letter-spacing: 0.0rem">NUMBER of optimal pegRNAS</b>&nbsp
+                <input type="text"  class="" style="width: 30px" placeholder=10 value="10" name="top_n">
+
+                            <b class="b text-white col-lg-3 text-center" style="margin-left: 50px">Assembly</b>
+            &nbsp
+            <select name="genome_kind" class="select2-selection--multiple" aria-label="genome_kind">
+                        <option value="human">GRch38</option>
+                    </select>
+
+            </span>
+             <h1></h1>
+{#            四月份更新sgRNA nick to nick#}
+                         <span id="top_n"class="form-inline">
+
+                <b class="b text-white col-lg-3 text-center " style="letter-spacing: 0.0rem">MINIMUM NICK-TO-NICK DISTANCE</b>&nbsp
+                <input type="text"  class="" style="width: 30px" placeholder=0 value="0" name="min_dis_sgRNA_nickase">
+
+                            <b class="b text-white col-lg-3 text-center" style="margin-left: 50px">MAXIMUM NICK-TO-NICK DISTANCE</b>
+            &nbsp
+                      <input type="text"  class="" style="width: 40px" placeholder=100 value="100" name="max_dis_sgRNA_nickase">
+
+
+            </span>
+                     </span>
+{#            新webserver 的homology#}
+            <h1></h1>
+                        <span id="sgRNA_nickase"class="form-inline">
+
+                <b class="b text-white col-lg-3 text-center " style="letter-spacing: 0.0rem">MINIMUM DOWNSTREAM HOMOLOGY</b>&nbsp
+                <input type="text"  class="" style="width: 30px" placeholder=5 value="5" name="homology">
+
+
+            </span>
+
+
+{#            四月份更新sgRNA_end#}
+
+            </span>
+
+        </div>
+
+</div>
+
+    <h1></h1>
+        <h1>
+{#   chr input#}
+        </h1>
+ <table  id="table" class="input-group input-group-lg table text-nowrap  text-black-50 text-center offset-4" >
+
+
+            <tr>
+                <td>
+                    <span class="input-group-addon " id="sizing-addon1">Chromosome</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter chromosome" aria-describedby="sizing-addon1" name="chr" required >
+                </td>
+            </tr>
+                 <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">Start position</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter start position" aria-describedby="sizing-addon1" name="start_position" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">Editing pattern</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter edit pattern" aria-describedby="sizing-addon1" name="edit_pattern" onkeyup="this.value=this.value.replace(/\(-[acgtACTG]+\)/)">
+
+                </td>
+            </tr>
+ </table>
+        <h1>
+
+        </h1>
+{#        <textarea name="seq_input" cols="60" rows="10" class="form-control" placeholder="Please enter sequence" ></textarea>#}
+{#         <input type="textarea" class="form-control" style="width:500px;height: 200px" placeholder="Please enter sequence" aria-describedby="sizing-addon1" name="seq_input">#}
+
+        <h2>&nbsp;</h2>
+         <p> <input type="submit"  class="btn btn-primary input-group-lg "  value="submit" >
+                    <input type="reset" class="btn btn-primary "  value="reset">
+                                  <a href="/history_position_index/" style="text-decoration: underline;margin-left: 10px">History</a>
+         </p>
+
+
+    </form>
+{#         <table class="table text-black-50 table-bordered " style="word-break: break-all;" id="file_table">#}
+         {% if start %}
+         {% if ERROR != "None ERROR"%}
+             {% else %}
+                             <h2></h2>
+        <a href="/downloadfile_position/">Download</a>
+              <div style="overflow: scroll; height: 500px;">
+        <table class="table text-black-50  text-center" style="font-size: 18px;" id="file_table" >
+       <thread>
+{#       该注释部分为四月份更新之前展示结果#}
+{#        <tr>#}
+{#            <th scope="col" style="width:700px">Target sequence</th>#}
+{#            <th scope="col">PBS</th>#}
+{#            <th scope="col">RTT</th>#}
+{#            <th scope="col">Editing score(%)</th>#}
+{#        </tr>#}
+{#该注释部分end#}
+           <th scope="col" style="">Strand</th>
+            <th scope="col">Spacer</th>
+            <th scope="col">PAM</th>
+            <th scope="col">PBS</th>
+            <th scope="col">RTT</th>
+            <th scope="col">EditToNickDistance</th>
+            <th scope="col">sgRNASpacer</th>
+            <th scope="col">sgRNAPAM</th>
+            <th scope="col">NickToNickDistance</th>
+            <th scope="col">Editing score(%)</th>
+{#       四月份更新结果#}
+
+        </thread>
+
+{% endif %}
+
+     {% if info_list.empty %}
+
+         {% else %}
+                  <tbody>
+{% for index, row in info_list.iterrows %}
+    <tr>
+{#    此注释部分为更新前部分#}
+{#    <td class="form-inline " style="width: 700px" >#}
+{#        <p>{{ row.Target1 }}</p><p style="color: blue">{{ row.Target2}}</p><p style="color: red">{{ row.Target3 }}</p><p>{{ row.Target4 }}</p>#}
+{#    </td>#}
+{#    <td>#}
+{#        {{ row.PBS }}#}
+{#    </td>#}
+{#        <td>#}
+{#        {{ row.RT }}#}
+{#    </td>#}
+{#        <td>#}
+{#        {{ row.score }}#}
+{#    </td>#}
+{# 更新前部分end#}
+           <td class="">{{ row.Strand }}</td>
+        <td>{{ row.Spacer}}</td>
+        <td>{{ row.PAM }}</td>
+        <td>{{ row.PBS }}</td>
+        <td>{{ row.RT }}</td>
+        <td>{{ row.EditToNickDistance }}</td>
+       <td>{{ row.sgRNASpacer}}</td>
+        <td>{{ row.sgRNAPAM }}</td>
+        <td>{{ row.NickToNickDistance }}</td>
+        <td>{{ row.score }}</td>
+
+    </tr>
+    {% empty %}
+
+    <h1>{{ ERROR }}</h1>
+            {% endfor %}
+{#                   <h2></h2>#}
+{#        <a href="/downloadfile_position/">Download</a>#}
+         <div id="igv-div"  >
+    ·
+         </div>
+{% endif %}
+
+         {%endif  %}
+
+         </tbody>
+     </table>
+
+
+    </div>
+
+    </div>
+{
+
+
+{##index#}
+ {% ifequal start_history 1 %}
+       <div style="overflow: scroll; height: 500px;  " class="container">
+    <span class="container" >
+        <div style="" id="history_container" >
+
+        <table style="float: contour; margin:0 auto;text-align: center; width: 800px;" class="table table-bordered overflow-auto">
+            <tr style="text-align: center" class="success">
+                <td>CHR</td>
+                <td>START_POSITION</td>
+                <td>EDIT_PATTERN</td>
+                <td>PAM</td>
+                <td>CUT SIZE</td>
+                <td>MIN PBS</td>
+                <td>MAX PBS</td>
+                <td>MIN RT</td>
+                <td>MAX RT</td>
+                {#                此部分为四月更新内容#}
+                <td>MIN DIS SGRNA</td>
+                <td>MAX DIS SGRNA</td>
+                <td>HOMOLOGY</td>
+                {#                更新内容end#}
+
+
+                <td>Number show</td>
+                <td>Time</td>
+            </tr>
+
+            {% for u in contacts %}
+                <tr class="info">
+                    <td>{{ u.input_chr}}</td>
+                    <td>{{ u.input_position }}</td>
+                    <td>{{ u.input_pattern }}</td>
+                    <td name="u_pam" value={{ u.PAM }}>{{ u.PAM }}</td>
+                    <td>{{ u.CUT_SIZE }}</td>
+                    <td>{{ u.MIN_PBS}}</td>
+                    <td>{{ u.MAX_PBS }}</td>
+                    <td>{{ u.MIN_RT}}</td>
+                    <td>{{ u.MAX_RT }}</td>
+
+                    {#                    此部分为四月更新内容#}
+                    <td>{{ u.MIN_DISGRNA }}</td>
+                    <td>{{ u.MAX_DISGRNA}}</td>
+                    <td>{{ u.HOMOLOGY }}</td>
+{#                    更新内容end#}
+
+                    <td>{{u.number_show }}</td>
+                    <td><a href="/detail_position/?time_id={{u.time}}&pam_type={{ u.PAM}}" type="button" style="text-decoration: underline;">{{ u.time }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        </div>
+
+        <div class="navigation" >
+            <ul class="form-inline">
+                {% for pg in contacts %}
+                    {% if contacts.number == pg %}
+                        <li class="active"><a href="?page={{ pg.num }}">{{ contacts.number }}</a></li>
+                    {% else %}
+                        <li><a href="?page{{ pg }}" style="">{{ pg.num }}</a></li>
+
+                    {% endif %}
+                {% endfor %}
+            {% if contacts.has_previous %}
+                                    <li>  <a href="?page={{ contacts.previous_page_number}}">上一页</a></li>
+            <li></li>
+            {% endif %}
+            {% if contacts.has_next%}
+{#                    <li>  <a href="?page={{ contacts.previous_page_number}}">上一页</a></li>#}
+                     <li> <a href="?page={{ contacts.next_page_number }}">下一页</a></li>
+            {% endif %}
+            </ul>
+            </div>
+
+
+    </span>
+       </div>
+ {% endifequal %}
+
+     {% ifequal start_history 2 %}
+
+         <div style="overflow: scroll; height: 500px;  " class="container">
+    <a href="/downloadfile_position_history/">Download</a>
+             <span class="container" >
+
+        <div style="" id="history_container" >
+
+        <table style="float: contour; margin:0 auto;text-align: center; width: 800px;" class="table table-bordered">
+            <tr style="text-align: center" class="success">
+{#                历史更新前部分#}
+{#                <td>#}
+{#                    Target#}
+{#                </td>#}
+{#                <td>PBS</td>#}
+{#                <td>RT</td>#}
+{#                <td>Efficiency(%)</td>#}
+{#                <td>Time</td>#}
+{#                更新部分end#}
+{#                此部分为四月更新后部分#}
+                       <td>Strand</td>
+                <td>Spacer</td>
+                <td>PAM</td>
+                <td>PBS</td>
+                <td>RTT</td>
+                <td>EditToNickDistance</td>
+                <td>sgRNASpacer</td>
+                <td>sgRNAPAM</td>
+                <td>NickToNickDistance</td>
+                <td>Efficiency(%)</td>
+                <td>Time</td>
+            </tr>
+
+            {% for index,u in contacts_df.iterrows %}
+                <tr class="info">
+{#                更新前部分#}
+{#                    <td class="form-inline table text-nowrap overflow-auto "style="word-break: keep-all;white-space:nowrap;width: 600px">#}
+{#                         <p>{{ u.Target1 }}</p><p style="color: blue">{{ u.Target2}}</p><p style="color: red">{{ u.Target3 }}</p><p>{{ u.Target4 }}</p>#}
+{#                    </td>#}
+{#                    <td>{{ u.PBS }}</td>#}
+{#                    <td>{{ u.RT }}</td>#}
+{#                    <td>{{ u.Efficiency }}</td>#}
+{#                    <td>{{ u.time }}</td>#}
+{#                    更新前部分end#}
+               {#                四月更新后部分#}
+                    <td>{{ u.Strand }}</td>
+                    <td>{{ u.Spacer }}</td>
+                    <td>{{ u.PAM }}</td>
+                    <td>{{ u.PBS }}</td>
+                    <td>{{ u.RT }}</td>
+                    <td>{{ u.EditToNickDistance }}</td>
+                    <td>{{ u.sgRNASpacer }}</td>
+                    <td>{{ u.sgRNAPAM }}</td>
+                    <td>{{ u.NickToNickDistance }}</td>
+                    <td>{{ u.Efficiency }}</td>
+                    <td>{{ u.time }}</td>
+{#                四月更新后部分end#}
+
+                </tr>
+            {% endfor %}
+        </table>
+
+        </div>
+
+
+    </span>
+         </div>
+ {% endifequal %}
+
+    </section>
+
+
+
+    </div>
+{#    {% if info_list.ERROR %}#}
+{#        <script>#}
+{##}
+{#                alert('{{ info_list.ERROR }}')#}
+{##}
+{#        </script>#}
+{#    {% endif %}#}
+
+
+    </body>
+{%endblock%}
+
+{

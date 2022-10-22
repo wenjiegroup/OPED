@@ -1,0 +1,511 @@
+{#{% extends 'base.html' %}#}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<link rel="stylesheet" href="{%static 'bootstrap/spv.css' %}">
+    <link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+    <link href="{% static 'bootstrap/js/bootstrap.js' %}"rel="stylesheet" />
+         <link rel="stylesheet" href="{%static 'boostrap/jquery/jquery.js'%} "/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+
+<link href="{% static 'bootstrap/js/bootstrap.js' %}"rel="stylesheet" />
+<link rel="stylesheet" href="{%static 'boostrap/jquery/jquery.js'%} "/>
+
+  <link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet" />
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+ <script src="{% static 'bootstrap/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+{#Plugin JavaScript#}
+    <script src="{% static 'bootstrap/jquery-easing/jquery.easing.min.js' %}"></script>
+
+{#Custom scripts for this templates#}
+    <script src="{% static 'bootstrap/js/index.min.js' %}"></script>
+</head>
+{% block content %}
+
+
+<body style="background: #b5c4b1">
+{# 三个部分 1#}
+{# 输入序列预测 #}
+{# 输入位置预测 #}
+{# database #}
+<header>
+<div class="spv  form-inline"style="background:#e0e5df">
+    <div  class="col-lg-6" style="background:#e0e5df">
+<section id="1" style="background: #96a48b;">
+    <div style="background: #7b8b65">
+        <h>Predict via Sequence</h>
+    </div>
+     <div class="container" class="form-predict_file ">
+{#        <div class="form-inline">#}
+    <form action="/pegRNA_file_update/" method="post" class="span4 " >
+        {% csrf_token %}
+
+            <h4 style="color:black">Enter the sequence</h4>
+           <div class="accordion" id="accordion">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a href="#usage"  class="text-white-50 accordion-toggle btn_spv btn" data-toggle="collapse">View an example input</a>
+                    </div>
+            <div id="usage" class="collapse accordion-body col-lg-6">
+            <textarea cols="90" rows="10" style="color:black;" >
+                # Example for substitution:  CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGCGCTGGCGCGA(/T)GGCCGCCTGGCAACTCTGCGACTACTACCTGCC
+                # Example for inserttion:  CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGCGCTG(+ATT)GCGCGAGGCCGCCTGGCAACTCTGCGACTACTACCTGCC
+                # Example for deletiion:   CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGC(-GCTGGCGCGA)GGCCGCCTGGCAACTCTGCGACTACTACCTGCC
+                # 如上的三个例子代表了三种不同编辑类型的输入格式，三种编辑类型需要编辑的碱基都是用一对圆括号()标注。
+                # 对于碱基替换则用反斜杠/表示,例子表示将A替换成T；
+                # 对于碱基插入则用加号+表示,例子表示将在圆括号位置插入ATT；
+                # 对于碱基删除则用加号-表示,例子表示将在圆括号位置删除GCTGGCGCGA;
+            </textarea>
+            </div>
+           </div>
+           </div>
+          <h2>&nbsp;</h2>
+{# select of field       #}
+        <div class="accordion-group",id="accordion_parameter">
+              <div class="accordion-heading">
+                        <a href="#select_dict" class="accordion-toggle  btn-spv btn" data-toggle="collapse" >More Parameters</a>
+                    </div>
+        <div id="select_dict" class="collapse accordion-body text-center ">
+            <span class="form-inline">
+                <b class="btn-spv col-lg-4">PAM_TYPE</b>
+            <select name="pam_type" class="select2-selection--multiple" aria-label="pam_type">
+                        <option value="NGG">NGG</option>
+                        <option value="NG">NG</option>
+                    </select>
+                &nbsp&nbsp
+                 <b class="btn-spv btn col-lg-4 " >DIS_NICKASE</b>
+                <input type="text"  class="" style="width: 30px" placeholder="10"  value="10" name="dis_nickase">
+                &nbsp&nbsp
+                </span>
+                <h1></h1>
+                <span id="max_length"class="form-inline">
+                <b class="btn-spv">MAX_LENGTH_PBS</b>
+                <input type="text"  class="" style="width: 30px" placeholder="17" value="17" name="max_len_PBS">
+                    &nbsp&nbsp
+                    <b class="btn-primary">MAX_LENGTH_RT</b>
+                        <input type="text"  class="" style="width: 30px" placeholder="24" value="24" name="max_len_RT">
+            </span>
+            <h1></h1>
+                  <span id="min_length"class="form-inline">
+                <b class="btn-primary">MIN_LENGTH_PBS</b>
+                <input type="text"  class="" style="width: 30px" placeholder=8 value="8" name="min_len_PBS">
+                &nbsp&nbsp&nbsp
+                    <b class="btn-primary">MIN_LENGTH_RT</b>
+                        <input type="text"  class="" style="width: 30px" placeholder=8 value="8"name="min_len_RT">
+            </span>
+        </div>
+
+</div>
+
+        <h1>
+
+        </h1>
+
+        <textarea name="seq_input" cols="120" rows="10" class="form-control col-lg-12" placeholder="Please enter sequence" ></textarea>
+{#         <input type="textarea" class="form-control" style="width:500px;height: 200px" placeholder="Please enter sequence" aria-describedby="sizing-addon1" name="seq_input">#}
+
+        <h2>&nbsp;</h2>
+         <p> <input type="submit"  class="btn btn-primary input-group-lg"  value="submit" >
+                    <input type="reset" class="btn btn-primary" value="reset"></p>
+
+
+    </form>
+     <h2></h2>
+     <table class="table text-white table-bordered " style="word-break: break-all" id="file_table">
+        <thread>
+         <tr>
+
+             <th scope="col">
+                 Target
+             </th>
+             <th scope="col">
+                 PBS
+             </th>
+             <th scope="col">
+                 RT
+             </th>
+             <th scope="col">
+                 efficiency
+             </th>
+         </tr>
+        </thread>
+         <tbody>
+         {% if info_list %}
+         <tr>
+
+             <td>
+                 {{ info_list.Target}}
+             </td>
+             <td>
+                 {{ info_list.PBS }}
+             </td>
+             <td>
+                 {{ info_list.RT }}
+             </td>
+             <td>
+                 {{ info_list.max }}
+             </td>
+
+         </tr>
+         {% else %}
+                <tr>
+
+             <td>
+                 NO ENTER
+             </td>
+             <td>
+                 NO ENTER
+             </td>
+             <td>
+                NO ENTER
+             </td>
+             <td>
+              NO ENTER
+             </td>
+
+         </tr>
+         {% endif %}
+         </tbody>
+     </table>
+
+
+    </div>
+
+
+
+</section>
+
+<section id="2" class=" col-lg-12 " style="background-color:#96a48b;height:0;padding-bottom: 100%">
+    <div style="background-color:#96a48b ">
+        <h1>2</h1>
+    </div>
+
+    <div class="container" class="form-predict_file spv">
+{#        <div class="form-inline">#}
+    <form action="/pegRNA_file_pos/" method="post" class="span4 ">
+        {% csrf_token %}
+
+            <h4 style="color: white">Enter the sequence</h4>
+           <div class="accordion" id="accordion">
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a href="#usage" class="accordion-toggle btn-primary btn" data-toggle="collapse">View an example input</a>
+                    </div>
+            <div id="usage" class="collapse accordion-body">
+            <h6 style="color:white">
+                # Example for substitution: <br> CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGCGCTGGCGCGA(/T)GGCCGCCTGGCAACTCTGCGACTACTACCTGCC
+                <br>
+                # Example for inserttion: <br> CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGCGCTG(+ATT)GCGCGAGGCCGCCTGGCAACTCTGCGACTACTACCTGCC
+                <br>
+                # Example for deletiion:  <br>CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGC(-GCTGGCGCGA)GGCCGCCTGGCAACTCTGCGACTACTACCTGCC
+                <br>
+                # 如上的三个例子代表了三种不同编辑类型的输入格式，三种编辑类型需要编辑的碱基都是用一对圆括号()标注。
+                <br>
+                # 对于碱基替换则用反斜杠/表示,例子表示将A替换成T；
+                <br>
+                # 对于碱基插入则用加号+表示,例子表示将在圆括号位置插入ATT；
+                <br>
+                # 对于碱基删除则用加号-表示,例子表示将在圆括号位置删除GCTGGCGCGA;
+            </h6>
+            </div>
+           </div>
+           </div>
+          <h2>&nbsp;</h2>
+
+{# select of field       #}
+        <div class="accordion-group",id="accordion_parameter">
+              <div class="accordion-heading">
+                        <a href="#select_dict" class="accordion-toggle btn-primary btn" data-toggle="collapse">More Parameters</a>
+                    </div>
+        <div id="select_dict" class="collapse accordion-body">
+            <span class="form-inline">
+                <b class="btn-primary">PAM_TYPE</b>
+            <select name="pam_type" class="select2-selection--multiple" aria-label="pam_type">
+                        <option value="NGG">NGG</option>
+                        <option value="NG">NG</option>
+                    </select>
+                &nbsp&nbsp
+                 <b class="btn-primary">DIS_NICKASE</b>
+                <input type="text"  class="" style="width: 30px" placeholder="10"  value="10" name="dis_nickase">
+                &nbsp&nbsp
+                </span>
+                <h1></h1>
+                <span id="max_length"class="form-inline">
+                <b class="btn-primary">MAX_LENGTH_PBS</b>
+                <input type="text"  class="" style="width: 30px" placeholder="17" value="17" name="max_len_PBS">
+                    &nbsp&nbsp
+                    <b class="btn-primary">MAX_LENGTH_RT</b>
+                        <input type="text"  class="" style="width: 30px" placeholder="24" value="24" name="max_len_RT">
+            </span>
+            <h1></h1>
+                  <span id="min_length"class="form-inline">
+                <b class="btn-primary">MIN_LENGTH_PBS</b>
+                <input type="text"  class="" style="width: 30px" placeholder=8 value="8" name="min_len_PBS">
+                &nbsp&nbsp&nbsp
+                    <b class="btn-primary">MIN_LENGTH_RT</b>
+                        <input type="text"  class="" style="width: 30px" placeholder=8 value="8"name="min_len_RT">
+            </span>
+        </div>
+
+</div>
+
+        <h1>
+{#   chr input#}
+        </h1>
+ <table  id="table" class="input-group input-group-lg table text-nowrap  text-white text-center offset-4" >
+
+
+            <tr>
+                <td>
+                    <span class="input-group-addon text-white" id="sizing-addon1">CHR</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter CHR" aria-describedby="sizing-addon1" name="chr">
+                </td>
+            </tr>
+                 <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">START_POSITION</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter START_POSITION" aria-describedby="sizing-addon1" name="start_position">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">EDIT_PATTERN</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter EDIT_PATTERN" aria-describedby="sizing-addon1" name="edit_pattern">
+                </td>
+            </tr>
+ </table>
+        <h1>
+
+        </h1>
+{#        <textarea name="seq_input" cols="60" rows="10" class="form-control" placeholder="Please enter sequence" ></textarea>#}
+{#         <input type="textarea" class="form-control" style="width:500px;height: 200px" placeholder="Please enter sequence" aria-describedby="sizing-addon1" name="seq_input">#}
+
+        <h2>&nbsp;</h2>
+         <p> <input type="submit"  class="btn btn-primary input-group-lg"  value="submit" >
+                    <input type="reset" class="btn btn-primary" value="reset"></p>
+
+
+    </form>
+     <table class="table text-white table-bordered " style="word-break: break-all; display:none" id="file_table">
+        <thread>
+         <tr>
+
+             <th scope="col">
+                 Target
+             </th>
+             <th scope="col">
+                 PBS
+             </th>
+             <th scope="col">
+                 RT
+             </th>
+             <th scope="col">
+                 efficiency
+             </th>
+         </tr>
+        </thread>
+         <tbody>
+         {% if info_list %}
+         <tr>
+
+             <td>
+                 {{ info_list.Target}}
+             </td>
+             <td>
+                 {{ info_list.PBS }}
+             </td>
+             <td>
+                 {{ info_list.RT }}
+             </td>
+             <td>
+                 {{ info_list.max }}
+             </td>
+
+         </tr>
+         {% else %}
+                <tr>
+
+             <td>
+                 NO ENTER
+             </td>
+             <td>
+                 NO ENTER
+             </td>
+             <td>
+                NO ENTER
+             </td>
+             <td>
+              NO ENTER
+             </td>
+
+         </tr>
+         {% endif %}
+         </tbody>
+     </table>
+
+
+    </div>
+
+
+
+</section>
+</div>
+<section id="3" class="layui-col-lg-offset6  col-lg-6" style="background: #96a48b;padding-box:100%;height:0;padding-bottom: 100%" >
+     <div style="background-color:#96a48b">
+         <h1> Data_base</h1>
+    </div>
+    <div class="container form-predict ">
+
+    <form action="/data_search/" method="post" class="span4  ">
+        {% csrf_token %}
+<h3 class="text-black-50" >Please enter the alleleID pam_type & direction</h3>
+        <table  id="table" class="input-group input-group-lg table text-nowrap  text-black-50 offset-2" >
+
+
+            <tr>
+                <td>
+                    <span class="input-group-addon " id="sizing-addon1">ALLELEID</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter Target sequence" aria-describedby="sizing-addon1" name="alleleID">
+                </td>
+            </tr>
+                 <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">PAM_TYPE</span>
+                </td>
+                <td>
+                      <select name="pam_type" class="select2-selection--multiple col-lg-12" aria-label="pam_type">
+                        <option value="NGG">NGG</option>
+                        <option value="NG">NG</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">DIRECTION</span>
+                </td>
+                <td>
+                    <select name="direction" class="select2-selection--multiple" aria-label="direction">
+                        <option value="install">install</option>
+                        <option value="direction">direction</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                   <p> <input type="submit"  class="btn btn-primary"  value="submit" >
+                    <input type="reset" class="btn btn-primary" value="reset"></p>
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+        <div>
+{#            <h2 class="offset-4">result</h2>#}
+{#            &nbsp#}
+{#        word-break: break-all  max-width:200px display:block overflow-y: scroll#}
+        <table class="table text-black-50  " style="font-size: 8px" id="file_table" >
+       <thread>
+        <tr>
+            <th scope="col">AlleleID</th>
+            <th scope="col">Type</th>
+            <th scope="col">Chromosome</th>
+            <th scope="col">Start</th>
+            <th scope="col">Stop</th>
+            <th scope="col">ReferenceAllele</th>
+            <th scope="col">AlternateAllele</th>
+            <th scope="col">Spacer</th>
+            <th scope="col">PBS</th>
+            <th scope="col">RT</th>
+            <th scope="col">PAM</th>
+        </tr>
+        </thread>
+{% for index, row in info_list.iterrows %}
+    <tr>
+    <td>
+        {{ row.AlleleID}}
+    </td>
+    <td>
+        {{ row.Type }}
+    </td>
+        <td>
+        {{ row.Chromosome }}
+    </td>
+      <td>
+        {{ row.Start }}
+    </td>
+        <td>
+            {{ row.Stop }}
+        </td>
+    <td>
+        {{ row.ReferenceAllele }}
+    </td>
+    <td>
+        {{ row.AlternateAllele }}
+    </td>
+    <td>
+        {{ row.Spacer }}
+    </td>
+
+    <td>
+        {{ row.PBS }}
+    </td>
+    <td>
+        {{ row.RT }}
+    </td>
+    <td>
+        {{ row.PAM }}
+    </td>
+    </tr>
+            {% endfor %}
+
+{#         {% else %}#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{#             <td>NO ENTER</td>#}
+{##}
+{#        {% endif %}#}
+        </table>
+        </div>
+</div>
+
+    </section>
+</div>
+{##}
+</header>
+</body>
+
+{%endblock%}
+</html>

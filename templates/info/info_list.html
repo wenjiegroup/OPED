@@ -1,0 +1,76 @@
+{% load static %}
+<script src="/static/jQuery-1.8.2.min.js"></script>
+<form id="searchlist">
+    {% csrf_token %}
+    <ul class="seachform">
+
+        <li><label>标题</label><input name="article_title" type="text" class="scinput"/></li>
+
+
+        <li><label>&nbsp;</label><input name="" type="button" class="scbtn" value="查询" id="search"/></li>
+
+    </ul>
+
+</form>
+<form onsubmit="return false" id="del">
+    <table class="tablelist">
+        <thead>
+        <tr>
+                  <th>
+                            ID
+                        </th>
+                        <th>
+                            Target
+                        </th>
+                        <th>
+                            Spacer
+                        </th>
+                        <th>
+                            PBS
+                        </th>
+                        <th>
+                            RT
+                        </th>
+                        <th>
+                            NickingCoordinate
+                        </th>
+
+        </tr>
+        </thead>
+
+        {% csrf_token %}
+        <tbody class="maina">
+
+
+        </tbody>
+
+
+    </table>
+
+</form>
+
+<script>
+    //首次页面加载，通过ajax拿到数据，放在maina容器里
+    show_list();
+
+    function show_list() {
+        $.post("{% url 'back:article/list_part/' %}", $('#searchlist').serialize(), function (data) {
+            $(".maina").html(data);
+        });
+    }
+
+    //点击分页，点击a连接：
+    $(document).on('click', '.pagin a', function () {
+        $.post(this.href, $('#searchlist').serialize(), function (data) {
+            $(".maina").html(data);
+        });
+        return false;//让a连接失效
+    });
+
+
+
+
+
+
+
+</script>

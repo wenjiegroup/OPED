@@ -1,0 +1,1 @@
+PegRNAID	Target(47bp)	Spacer	PBS	RT	NickingCoordinate

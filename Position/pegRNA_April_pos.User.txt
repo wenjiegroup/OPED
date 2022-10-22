@@ -1,0 +1,1 @@
+PegRNAID	Strand	Target	Spacer	PAM	PBS	RT	EditToNickDistance	sgRNASpacer	sgRNAPAM	NickToNickDistance

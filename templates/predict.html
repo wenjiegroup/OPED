@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+<link href="{% static 'bootstrap/css/signup.css' %}" rel="stylesheet">
+{% block title %}
+    Predict
+{% endblock %}
+{% block content %}
+
+    <script>
+        window.jQuery||document.write("<script src='../static/js/jquery-3.4.1.min.js'>"+"/script>");
+    </script>
+    <script>
+    {#$(function submitname(){#}
+    {#    var Target = $("#Target").val();#}
+    {#    var PBS=$("#PBS").val();#}
+    {#    var RT=$('#RT').val();#}
+    {##}
+    {#    $.post("/pegRNA_PredictingCodes/text/",{Target:Target,PBS:PBS,RT:RT},function (data){#}
+    {#        $("#outId").text(data)#}
+    {#    }).error(function(){#}
+    {#        alert("Error");#}
+    {#    });#}
+
+    $(function (){
+        $("#predict_form").submit(function (){
+            var Target=$("#Target").val();
+            var PBS=$("#PBS").val();
+            var RT=$("#RT").val();
+            $(this).ajaxSubmit({
+                type:"post", //提交方式
+                datatype:"text",//数据类型
+                url:"/predict_ajax/",
+                data:{
+                    'Target':Target,
+                    'PBS':PBS,
+                    'RT':RT
+                },
+                success:function (data){
+                    loadresult()
+
+                }
+            });
+            return false
+        });
+
+    });
+
+    function loadresult(){
+            var lstinfo
+        }
+
+    </script>
+    </body>
+    <section id="projects" class="projects-section bg-light masthead ">
+    <div class="container" class="form-predict">
+        <h3 class="offset-4 text-white" >Please enter the Target,PBS & RT</h3>
+    <form action="/pegRNA_PredictingCodes/" method="post" id="predict_form" class="offset-4 span4 my-3 ">
+        {% csrf_token %}
+
+        <table  id="table" class="input-group input-group-lg table text-nowrap  text-white" >
+
+
+            <tr>
+                <td>
+                    <span class="input-group-addon text-white" id="sizing-addon1">Target</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter Target sequence" aria-describedby="sizing-addon1" name="Target" id="Target">
+                </td>
+            </tr>
+                 <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">PBS</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter PBS sequence" aria-describedby="sizing-addon1" name="PBS" id="PBS">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="input-group-addon" id="sizing-addon1">RT</span>
+                </td>
+                <td>
+                    <input type="text" class="form-control" placeholder="Please enter Target sequence" aria-describedby="sizing-addon1" name="RT" id="RT">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                   <p> <input type="submit" id="btnAjax" class="btn btn-primary"   value="submit" >
+                    <input type="reset" class="btn btn-primary" value="reset"></p>
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+
+    </form>
+<div id="upDiv" name="upDiv">
+
+        Name=<h1 id="outId">NULL</h1>
+
+</div>
+{#        <div class="form-inline">#}
+{#            <h2 class="offset-4">result</h2>#}
+{#            &nbsp#}
+{#            <h1>{{ result }}</h1>#}
+{#        </div>#}
+</div>
+
+    </div>
+    </section>
+
+
+
+    </div>
+    </body>
+{%endblock%}
+

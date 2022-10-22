@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+<link href="{% static 'bootstrap/css/signup.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'bootstrap/css' %}">
+{% block title %}
+    OPEDVar
+{% endblock %}
+{% block content %}
+<body>
+
+    <section id="projects" class="projects-section bg-light "
+    style="background:-webkit-linear-gradient(rgba(224,229,223,0.9),rgba(224,229,223,0))">
+    <div class="container" class="form-predict">
+        <h3 class=" text-black-50 text-center offset-1" >OPEDVar</h3>
+{#    <form action="/data_search/" method="post" class="offset-4 span4 my-3 ">#}
+     <form action="/OPEDVar/" method="post" class="offset-4 span4 my-3 ">
+        {% csrf_token %}
+
+        <table  id="table" class="input-group input-group-lg table text-nowrap  text-black-50" >
+{#四月份更新#}
+            <tr>
+                    <span class="form-inline " style="">
+                    <span class="input-group-addon text-center col-lg-2" style="margin-top:5px" id="sizing-addon1">QUERY TYPE</span>
+
+                        <select name="query_type" class="select2-selection--multiple col-lg-4 text-center" aria-label="query_type">
+                        <option value="AlleleID" >AlleleID</option>
+                        <option value="GeneID">GeneID</option>
+                            <option value="GeneSymbol">GeneSymbol</option>
+                            <option value="HGNC_ID">HGNC_ID</option>
+                    </select>
+
+
+</span>
+                <b class="text-black-50  "  style="font-size: 0.5rem;margin-bottom: 20px;margin-left:125px">Select query type and 'AlleleID','GeneID',<br></b>
+                <b class="text-black-50" style="font-size: 0.5rem;margin-bottom: 20px;margin-left:125px" >'GeneSymbol' and 'HGNC_ID'</b>
+{# 四月份更新end 其实就是加了个ALLid type#}
+
+
+
+    <span class="form-inline " style="">
+{#                    <span class="input-group-addon text-center col-lg-2" style="margin-top:5px" id="sizing-addon1">ALLELEID</span>#}
+{#  上下为四月更新前ID#}
+{#                    <input type="text" class="form-control col-lg-4 " placeholder="Please enter AlleleID " aria-describedby="sizing-addon1" name="alleleID">#}
+                    <span class="input-group-addon text-center col-lg-2" style="margin-top:5px" id="sizing-addon1">QUERY ITEM</span>
+
+                    <input type="text" class="form-control col-lg-4 " placeholder="Please enter AlleleID " aria-describedby="sizing-addon1" name="queryItem">
+
+
+</span>
+            <b class="text-black-50  "  style="font-size: 0.5rem;margin-bottom: 20px;margin-left:125px">Enter the AlleleID,GeneID,GeneSymbol or HGNC_ID</b>
+            </tr>
+                 <tr>
+{#                <td>#}
+                    <span class="form-inline"  style="" id="sizing-addon1">
+{#                </td>#}
+{#                <td>#}
+                      <span class="input-group-addon text-center col-lg-2">PAM</span>
+                      <select name="pam_type" class="select2-selection--multiple col-lg-4 text-center" aria-label="pam_type">
+                        <option value="NGG" >NGG</option>
+                        <option value="NG">NG</option>
+                    </select>
+                    </span>
+              <b class="text-black-50  "  style="font-size: 0.5rem;margin-bottom: 20px;margin-left:125px">Select PAM type between 'NGG' and 'NG'</b>
+{#                </td>#}
+            </tr>
+            <tr>
+{#                <td>#}
+                <span class="form-inline" style="">
+                    <span class="input-group-addon text-center col-lg-2" id="sizing-addon1">DIRECTION</span>
+{#                </td>#}
+{#                <td>#}
+                    <select name="direction" class="select2-selection--multiple col-lg-4 text-center" aria-label="direction">
+                        <option value="install">install</option>
+                        <option value="correct">correct</option>
+                    </select>
+                </span>
+
+                <b class="text-black-50  "  style="font-size: 0.5rem;margin-bottom: 0px;margin-left:125px">Select edit direction which means to install <br></b>
+                            <b class="text-black-50"  style="font-size: 0.4rem;margin-bottom: 20px;margin-left:124px">or correct pathogenic human genetic variants</b>
+                     {#                </td>#}
+            </tr>
+            <tr>
+                <span class="form-inline" style="">
+                    <span class="input-group-addon text-center col-lg-2" id="sizing-addon1">ASSEMBLY</span>
+{#                </td>#}
+{#                <td>#}
+                    <select name="kind" class="select2-selection--multiple col-lg-4 text-center" aria-label="direction">
+                        <option value="human">GRch38</option>
+                    </select>
+                </span>
+            </tr>
+
+{#            </tr>#}
+        </table>
+
+<span>
+                 <a href="/history_database_index/" class="input-group-addon text-center col-lg-4" style="text-decoration: underline;margin-right: 10px">HISTORY</a>
+                     <input type="submit"  class="btn btn-primary input-group-lg  " style="width: 8rem;" value="submit" >
+                    <input type="reset" class="btn btn-primary " style="width: 8rem" value="reset"></p>
+</span>
+
+    </form>
+  {% if start %}
+    {% if ERROR %}
+       <h1>{{ ERROR }}</h1>
+        {% else %}
+        <div class="" style="overflow: scroll; height: 700px;padding-inline: 10px">
+        <div>
+                     <h2></h2>
+        <a href="/downloadfile_database/">Download</a>
+        <table class="table text-black-50  text-center container" style="font-size: 18px;" id="file_table" >
+       <thread>
+        <tr>
+{
+             <th scope="col">Strand</th>
+             <th scope="col">Spacer</th>
+            <th scope="col">PAM</th> {# 这个鬼东西内容里面没有 要从参数那里加 #}
+            <th scope="col">PBS</th>
+            <th scope="col">RTT</th>
+            <th scope="col">EditToNickDistance</th>
+            <th scope="col">sgRNASpacer</th>
+            <th scope="col">NickToNickDistance</th>
+        </tr>
+        </thread>
+
+{% for index, r in info_list.iterrows %}
+    <tr>
+    <td>{{ r.Strand }}</td>
+        <td>{{ r.Spacer }}</td>
+        <td>{{ r.PAM }}</td>
+        <td>{{ r.PBS }}</td>
+        <td>{{ r.RT }}</td>
+        <td>{{ r.EditToNickDistance }}</td>
+        <td>{{ r.sgRNASpacer }}</td>
+        <td>{{ r.NickToNickDistance }}</td>
+
+
+    </tr>
+            {% endfor %}
+
+
+        </table>
+        </div>
+        </div>
+         {% endif %}
+    {% endif %}
+</div>
+
+    </div>
+
+    {% ifequal start_history 1 %}
+       <div style="overflow: scroll; height: 500px;  " class="container">
+    <span class="container" >
+        <div style="" id="history_container" >
+
+        <table style="float: contour; margin:0 auto;text-align: center; width: 800px;" class="table table-bordered overflow-auto">
+            <tr style="text-align: center" class="success">
+                <td>Query Type</td>
+                <td>Query Item</td>
+                <td>PAM</td>
+                <td>Direction</td>
+                <td>Time</td>
+            </tr>
+
+            {% for u in contacts %}
+                <tr class="info">
+                    <td>{{ u.queryType}}</td>
+                    <td>{{ u.queryItem }}</td>
+                    <td name="u_pam" value={{ u.PAM }}>{{ u.PAM }}</td>
+                    <td>{{ u.DIRECTION }}</td>
+                    <td><a href="/detail_database/?time_id={{u.time}}" type="button" style="text-decoration: underline;">{{ u.time }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        </div>
+
+        <div class="navigation" >
+            <ul class="form-inline">
+                {% for pg in contacts %}
+                    {% if contacts.number == pg %}
+                        <li class="active"><a href="?page={{ pg.num }}">{{ contacts.number }}</a></li>
+                    {% else %}
+                        <li><a href="?page{{ pg }}" style="">{{ pg.num }}</a></li>
+
+                    {% endif %}
+                {% endfor %}
+            {% if contacts.has_previous %}
+                                    <li>  <a href="?page={{ contacts.previous_page_number}}">上一页</a></li>
+            <li></li>
+            {% endif %}
+            <li> </li>
+            {% if contacts.has_next%}
+{#                    <li>  <a href="?page={{ contacts.previous_page_number}}">上一页</a></li>#}
+                     <li> <a href="?page={{ contacts.next_page_number }}">下一页</a></li>
+            {% endif %}
+            </ul>
+            </div>
+
+
+    </span>
+       </div>
+ {% endifequal %}
+
+    {% ifequal start_history 2 %}
+
+         <div style="overflow: scroll; height: 500px;  " class="container">
+{#        <a href="/downloadfile_database_history/">Download_history</a>#}
+             <span class="container" >
+{#             下载历史文件#}
+    {#             下载历史文件end#}
+        <div style="" id="history_container" >
+                                         <h2></h2>
+        <a href="/downloadfile_database_history/">Download</a>
+
+
+            <table style="float: contour; margin:0 auto;text-align: center; width: 800px;" class="table table-bordered">
+            <tr style="text-align: center" class="success">
+
+            <td >AlleleID</td>
+            <td >Type</td>
+            <td>Chromosome</td>
+            <td >Start</td>
+            <td >Stop</td>
+            <td >ReferenceAllele</td>
+            <td >AlternateAllele</td>
+            <td >Spacer</td>
+            <td>PBS</td>
+            <td >RTT</td>
+            <td>PAM</td>
+
+            </tr>
+
+            {% for index,r in contacts_df.iterrows %}
+                <tr class="info">
+                    <td>{{ r.AlleleID }}</td>
+                    <td>{{ r.Type }}</td>
+                <td>{{ r.Chromosome }}</td>
+                <td>{{ r.Start }}</td>
+                <td>{{ r.Stop }}</td>
+                <td>{{ r.ReferenceAllele }}</td>
+                <td>{{ r.AlternateAllele }}</td>
+                <td>{{ r.Spacer }}</td>
+                <td>{{ r.PBS}}</td>
+                <td>{{ r.RT }}</td>
+                <td>{{ r.PAM }}</td>
+                </tr>
+
+            {% endfor %}
+
+
+        </table>
+
+        </div>
+
+
+    </span>
+         </div>
+ {% endifequal %}
+
+
+    </section>
+
+
+
+
+    </body>
+{%endblock%}
+
