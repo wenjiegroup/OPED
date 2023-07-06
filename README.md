@@ -33,7 +33,7 @@ sudo ln -s OPED_nginx.conf /etc/nginx/sites-enabled/
 
 # edit your nginx config file and copy it to your nginx config file location
 # sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bakbeforeoped
-sudo mv nginx.confg /etc/nginx/nginx.conf
+sudo cp nginx.confg /etc/nginx/nginx.conf
 
 # reload your nginx
 nginx -s reload
