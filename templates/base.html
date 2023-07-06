@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content="pegRNA_predict"/>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="Shortcut Icon" href="{% static 'img/OPED.ico'%}" type="image/x-icon" />
+        {# CSS #}
+        <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet"/>
+        <link href="{% static 'css/index.min.css'%}" rel="stylesheet"/>
+        <link href="{% static 'css/style_diy.css' %}" rel="stylesheet">
+        {# Scripts #}
+<!--        <script src="{% static 'js/popper.min.js' %}"></script>-->
+<!--        <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>-->
+<!--        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>-->
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/funs_diy.js' %}"></script>
+
+        {% block head %}{% endblock %}
+    </head>
+
+    {# base tempate including nav body foot #}
+    <body id="page-top" style="width:100%;height: 100%;margin:0;padding: 0;background:#e0e5df99">
+
+
+        <nav class="navbar navbar-expand-lg" style="font-size: 1.2rem" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'index'%}" style="letter-spacing:.2rem;font-size: 1.4rem">OPED</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                    <ul class="navbar-nav justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'index'%}">HOME</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DESIGN</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'sequence' %}" style="font-weight: bolder;">BY SEQUENCE</a></li>
+                                <li><a class="dropdown-item" href="{% url 'position' %}" style="font-weight: bolder;">BY POSITION</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'opedvar'%}">OPEDVAR</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'help'%}">HELP</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about'%}">CONTACT</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% block header %}
+        {% endblock %}
+        <br>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer class="text-center">
+    <div class="container text-black-50">
+        Copyright @ Bioinformatics Center of AMMS
+    </div>
+        </footer>
+    </body>
+</html>

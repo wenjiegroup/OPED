@@ -1,0 +1,12 @@
+## BED file should be organized in five columns and separated
+## by '\t',  like below.
+## Attention: we will take the EndLocation into account and
+## ignore the StartLocation, as the EndLocation represents
+## the actual Location of the editing site in the sequence 
+## of a chromosome.
+
+# chromosome	StartLocation	EndLocation	EditingPattern	LocationName
+chr1	943994	943995	/T	SNV_01
+chr1	943994	943995	+ATT	INS_01
+chr1	943994	943995	-GAGAACTCGG	DEL_01
+

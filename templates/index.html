@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    OPED
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br><br>
+    <div class="row" style="margin:30px 0;">
+
+        <div class="col-md-5 column">
+            <br>
+            <img src="{% static '/img/OPED_logo.svg' %}" alt="" class="mx-auto d-block" style="width:80%">
+        </div>
+        <div class="col-md-7 column">
+            <h1 class="ttl">Optimized Prime Editing Design based on deep learning and transfer learning</h1>
+            <h4 class="text-black mx-auto mt-2 mb-2 " style="font-weight: 200;letter-spacing: .1rem;">
+                When a target sequence or the position of a target site along with the intended edit was input,this web tool provides the top 10 optimized pegRNAs and sgRNAs
+            </h4>
+        </div>
+    </div>
+    <br><hr>
+    <div class="row clearfix">
+        <form class="col-md-7 column" style="padding:30px" action="{% url 'sequence' %}#file_table" method="post" >
+            {% csrf_token %}
+            <p style="font-style:italic">QUICK START</p>
+            <br>
+            <h4>Enter your sequence</h4>
+            <textarea id="TEXT_SEQ" name="SEQUENCE" rows="4" class="form-control mt-2 mb-2" placeholder="Please enter sequence" onblur=TEXT_SEQ_val() ></textarea>
+            <span> Use an example:
+                <b>
+                    <input type="radio" name="exam_seq_in" onclick="exam_seq_fun(1)"/> Substitution
+                    <input type="radio" name="exam_seq_in" onclick="exam_seq_fun(2)"/> Insertion
+                    <input type="radio" name="exam_seq_in" onclick="exam_seq_fun(3)"/> Deletion
+                </b>
+            </span>
+            <div>
+                <input type="submit"  class="btn btn-primary input-group-lg col-lg-3 offset-2 mt-3" value="submit" >
+                <input type="reset" class="btn btn-primary col-lg-3 offset-2 mt-3" value="reset">
+            </div>
+            <div class="collapse accordion-body">
+                <select name="PAM">
+                    <option value="NGG">NGG</option>
+                    <option value="NG">NG</option>
+                </select>
+                <input type="text" value="10" name="CUT_SIZE">
+                <input type="text" value="17" name="MAX_PBS">
+                <input type="text" value="24" name="MAX_RT">
+                <input type="text" value="8" name="MIN_PBS">
+                <input type="text" value="8" name="MIN_RT">
+                <input type="text" value="10" name="TOP_N">
+                <select name="GENOME">
+                    <option value="human">GRCh38</option>
+                </select>
+                <input type="text" value="0" name="MIN_DISGRNA">
+                <input type="text" value="100" name="MAX_DISGRNA">
+                <input type="text" value="5" name="HOMOLOGY">
+            </div>
+        </form>
+        <div class="col-md-5 column" style="border-left:1px solid lightgrey;padding:30px">
+            <p style="font-style:italic">FULL FUNCTIONS</p>
+            <br>
+            <h4>Design by Sequence:</h4>
+            <a href="{% url 'sequence' %}" class="btn btn-primary col-lg-7 offset-3">input sequence</a>
+            <br><br>
+            <h4>Design by Position:</h4>
+            <a href="{% url 'position' %}" class="btn btn-primary col-lg-7 offset-3">input position</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row clearfix">
+        <div class="col-lg-4 offset-1 mx-auto">
+            <br>
+            <img src="{% static '/img/OPEDVar_logo.svg' %}" class="mx-auto d-block" alt="">
+        </div>
+        <div class="col-lg-7">
+            <h4 class="text-black mx-auto mt-2 mb-4" style="font-weight: 200;letter-spacing: .1rem;">
+                A comprehensive and searchable database for optimized pegRNAs and sgRNAs to correct or install pathogenic human genetic variants
+            </h4>
+            <a href="{% url 'opedvar' %}" class="btn btn-primary col-lg-6 mx-auto">Go to OPEDVar!</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    OPED-Help
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <body>
+        <div class="container">
+            <h1 style="font-weight:bolder;">
+                User Manual
+            </h1>
+            <br><hr><br>
+            <p class="col-lg-10 offset-1">
+                <h2>1. Quick Start</h2>
+                <br>
+                <p>We provide a quick entrance for users on the <code>HOME</code> page, you can directly
+                    enter the DNA sequence containing the editing site and editing pattern.</p>
+                <img class="mx-auto d-block col-lg-5 border" src="{% static '/img/help_quick_start.png' %}" alt="">
+                <br>
+                <p><b>For the input sequence, several rules should be followed:</b></p>
+                <ol>
+                    <li>Only "<span style="color:red">ATCGatcg</span>" and "<span style="color:red">+-/()</span>"are acceptable.</li>
+                    <li>The bases to be edited are marked with a pair of parentheses "<span style="color:red">()</span>".</li>
+                    <li>For Substitutions, the backslash "<span style="color:red">/</span>" is used. Replacing base X by base
+                        Y should be written <b>X/(Y)</b>. Only replace-one-base-by-one-base is allowed.</li>
+                    <li>For Insertions, the plus sign "<span style="color:red">+</span>" is used. <b>X(+Y)</b> means insert a
+                        base Y after base X.</li>
+                    <li>For Deletions, the minus sign "<span style="color:red">-</span>" is used. Deleting several bases XYZ after
+                        base X should be written <b>X(-XYZ)</b></li>
+                </ol>
+                <p>For example:</p>
+                <ol>
+                    <li>Example for substitution:<br>
+                        <pre style="font-size:100%">CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGCGCTGGCGCGA<span style="color:red">(/T)</span>GGCCGCCTGGCAACTCTGCGACTACTACCTGCC</pre></li>
+                    <li>Example for insertion:<br>
+                        <pre style="font-size:100%">CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGCGCTG<span style="color:red">(+ATT)</span>GCGCGAGGCCGCCTGGCAACTCTGCGACTACTACCTGCC</pre></li>
+                    <li>Example for deletion:<br>
+                        <pre style="font-size:100%">CGCCGCCGCCTCTACTGGGGCTTCTTCTCGGGCCGCGGCCGCGTCAAGCCGGGGGGGC<span style="color:red">(-GCTGGCGCGA)</span>GGCCGCCTGGCAACTCTGCGACTACTACCTGCC</pre></li>
+                </ol>
+                <p>We provide users with quick examples. After clicking the radio button of substitution, insertion,
+                    or deletion, the corresponding example sequence will be autofilled the text input box.</p>
+                <br><hr><br>
+
+                <h2>2.	Full Functions</h2>
+                <br>
+                <p>OPED is a webserver tool that supports three design methods for Optimized Prime Editing Designing,
+                    including <b>Design by Sequence</b>, <b>Design by Position</b>, and <b>Search in OPEDVar</b>.</p>
+                <br>
+                <h3>2.1	Design by Sequence</h3>
+                <br>
+                <p>The user can access the Design by Sequence Page through two ways:<br>
+                    <b>a)</b> <code>Navigation Bar</code> -> <code>DESIGN</code> -> <code>BY SEQUENCE</code>;<br>
+                    <b>b)</b> <code>HOME</code> Page > "<code>Input Sequence</code>" Button.</p>
+                <img src="{% static '/img/help_sequence.png' %}" alt="" class="mx-auto d-block border" style="width:80%">
+                <br>
+                <p>Here, users can predict pegRNAs and sgRNAs by inputting their sequences and setting customized
+                    parameters. Users can enter the DNA sequence directly, or submit a FASTA format file. You can
+                    view the rules for the input sequence by clicking button "Example Input", and check the
+                    parameters by "More Parameters".</p>
+                <p>In this project, 11 parameters are involved in, including PAM, Maximum Edit-to-Nick Distance,
+                    Maximum PBS Length, Minimum PBS Length, Maximum RTT Length, Minimum RTT Length, Maximum
+                    Nick-to-Nick Distance, Minimum Nick-to-Nick Distance, Minimum Downstream Homology, Number
+                    of Optimized pegRNAs, and Assembly . The initial default parameters are already given and
+                    the user can adjust them as needed.</p>
+                <img src="{% static '/img/help_parameters.png' %}" alt="" class="mx-auto d-block border" style="width:80%">
+                <br>
+                <p>We provide users with quick examples. After clicking the radio button of substitution, insertion,
+                    or deletion, the corresponding example sequence will be autofilled into the text input box.</p>
+                <p>For FASTA files, we follow the general formatting requirements of FASTA files, while requiring
+                    the sequence content to meet our rules which are described above.
+                    We provide an example FASTA file that can be downloaded by clicking on the
+                    "<a href="{% static 'files/example.fa' %}">Example for FASTA file</a>" link.</p>
+                <br>
+                <h3>2.2	Design by Position</h3>
+                <br>
+                <p>Users can access the Design by Position Page through two ways:<br>
+                    <b>a)</b> <code>Navigation Bar</code> -> <code>DESIGN</code> -> <code>BY POSITION</code>;<br>
+                    <b>b)</b> <code>HOME</code> Page -> "<code>Input Position</code>" Button.</p>
+                <img src="{% static '/img/help_position.png' %}" alt="" class="mx-auto d-block border" style="width:80%">
+                <br>
+                <p>Users need to enter the Chromosome, the Start position of the edited base in the human GRCh38 genome
+                    map, and the Editing pattern, or you can submit a BED format file containing these information. You
+                    can view the rules for the position by clicking button "Example Input", and check the parameters
+                    by "More Parameters".</p>
+                <p>Similarly to Design by Sequence, we provide users with quick examples. After clicking the radio button
+                    of substitution, insertion, or deletion, the corresponding example information of Chromosome, Start
+                    position and Editing pattern will be autofilled into the text input boxes.</p>
+                <p>For the query of the Position, several rules should be followed:</p>
+                <ol>
+                    <li>Chromosome should be written like "<span style="color:red">chr1</span>" or
+                        "<span style="color:red">chrX</span>".</li>
+                    <li>Start position refers to the actual location of the edited base in the sequence of a chromosome,
+                        it should be a <span style="color:red">positive integer</span>.</li>
+                    <li>Editing pattern are similar to rules in sequence. Backslash "<span style="color:red">/</span>"
+                        is used for Substitutions, the plus sign "<span style="color:red">+</span>" is used for
+                        Insertions, and the minus sign "<span style="color:red">-</span>" is used for Deletions.</li>
+                </ol>
+                <p>For example:</p>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Type</th>
+                        <th>Chromosome</th>
+                        <th>Start position</th>
+                        <th>Editing pattern</th>
+                    </tr>
+                    <tr>
+                        <td>Substitution</td>
+                        <td>chr1</td>
+                        <td>943995</td>
+                        <td>/T</td>
+                    </tr>
+                    <tr>
+                        <td>Insertion</td>
+                        <td>chr1</td>
+                        <td>943995</td>
+                        <td>+GTATT</td>
+                    </tr>
+                    <tr>
+                        <td>Deletion</td>
+                        <td>chr1</td>
+                        <td>943995</td>
+                        <td>-GAGAACTCGG</td>
+                    </tr>
+                </table>
+
+                <p>For BED files, the content needs to meet the following rule:</p>
+                <ol>
+                    <li>BED file should be organized in five columns:
+                        <span style="color:red">Chromosome</span>, <span style="color:red">StartLocation</span>,
+                        <span style="color:red">EndLocation</span>, <span style="color:red">EditingPattern</span>
+                        and <span style="color:red">PositionName</span>.</li>
+                    <li>Columns should be separated by '<span style="color:red">\t</span>'</li>
+                    <li>We will take the <span style="color:red">EndLocation</span> into account and ignore the StartLocation,
+                        as the EndLocation represents the <b>actual location</b> of the editing site in the sequence.</li>
+                </ol>
+                <p>We provide an example BED file that can be downloaded by clicking on the
+                    "<a href="{% static 'files/example.bed' %}">Example for BED file</a>" link.</p>
+                <br>
+                <h3>2.3	Search in OPEDVar</h3>
+                <br>
+                <p>Users can access the OPEDVar through two ways:<br>
+                    <b>a)</b> <code>Navigation Bar</code> -> <code>OPEDVar</code>;<br>
+                    <b>b)</b> <code>HOME</code> Page -> "<code>GO TO OPEDVAR!</code>" Button.</p>
+                <img src="{% static '/img/help_opedvar.png' %}" alt="" class="mx-auto d-block border" style="width:80%">
+                <br>
+                <p>Users can search by <span style="color:red">AlleleID</span>, <span style="color:red">GeneID</span>,
+                    <span style="color:red">GeneSymbol</span> and <span style="color:red">HGNC_ID</span> to obtain
+                    optimized pegRNAs and sgRNAs to correct or install pathogenic human genetic variants.</p>
+                <br><hr><br>
+
+                <h2>3.	Result display</h2>
+                <br>
+                <p>After users submit their queries, OPED will run calculations immediately, and the designed
+                    results will be displayed in the form of a table.</p>
+                <img src="{% static '/img/help_results.png' %}" alt="" class="mx-auto d-block border" style="width:80%">
+                <br>
+                <p>We provide a download function for users, you can download the results table by clicking the
+                    "<code>Download</code>" button at the upper left corner of the table.</p>
+                <p>At the same time, we provide a function to accessing history records. By clicking the
+                    "<code>HISTORY</code>" link, users can get all the submitted query records, and their detail
+                    information, including sequence information (for sequence queries), position information (for
+                    position queries), gene ID information (for OPEDVar search queries), and corresponding design
+                    parameters they used. Then users get the design results of these queries by clicking the
+                    hyperlink of the records.</p>
+            </div>
+        </div>
+    </body>
+
+{% endblock %}

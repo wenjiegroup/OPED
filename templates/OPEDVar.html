@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<!--    <link href="{% static 'bootstrap/css' %}" rel="stylesheet">-->
+<!--    <link href="{% static 'bootstrap/font' %}" rel="stylesheet">-->
+{% endblock %}
+
+{% block title %}
+    OPEDVar
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 style="font-weight:bolder;text-align: center;">
+            Welcome to OPEDVar!
+        </h1>
+        <br>
+        <form action="{% url 'opedvar' %}" class="mb-4" method="post" style="width:60%;margin:auto">
+            {% csrf_token %}
+            <span class="row m-4">
+                <span class="text-center " style="font-weight: bolder"> Use an example
+                    <input type="radio" name="exam_seq_in" onclick="exam_var_fun(1)" /> AlleleID
+                    <input type="radio" name="exam_seq_in" onclick="exam_var_fun(2)" /> GeneID
+                    <input type="radio" name="exam_seq_in" onclick="exam_var_fun(3)"  /> GeneSymbol
+                    <input type="radio" name="exam_seq_in" onclick="exam_var_fun(4)"  /> HGNC_ID
+                </span>
+            </span>
+
+            <span class="row">
+                <span class="text-center col-lg-4" style="font-weight: bolder">QUERY TYPE</span>
+                <select class="col-lg-7 text-center" aria-label="queryType" name="queryType" id="queryType">
+                    <option value="AlleleID" >AlleleID</option>
+                    <option value="GeneID">GeneID</option>
+                    <option value="GeneSymbol">GeneSymbol</option>
+                    <option value="HGNC_ID">HGNC_ID</option>
+                </select>
+            </span>
+            <span class="row">
+                <b class="text-black-50 col-lg-7 offset-4 mb-2">Select query type and 'AlleleID', 'GeneID', 'GeneSymbol' and 'HGNC_ID'</b>
+            </span>
+            <span class="row">
+                    <span class="text-center col-lg-4" style="font-weight: bolder">QUERY ITEM</span>
+                    <input type="text" class="col-lg-7 text-center" placeholder="Please enter AlleleID " aria-describedby="sizing-addon1" required name="queryItem" id="queryItem">
+                </span>
+            <span class="row">
+                <b class="text-black-50 col-lg-7 offset-4 mb-2">Enter the AlleleID,GeneID,GeneSymbol or HGNC_ID</b>
+            </span>
+            <span class="row">
+                <span class="text-center col-lg-4" style="font-weight: bolder">PAM</span>
+                <select class="col-lg-7 text-center" aria-label="PAM" name="PAM">
+                    <option value="NGG" >NGG</option>
+                    <option value="NG">NG</option>
+                </select>
+            </span>
+            <span class="row">
+                <b class="text-black-50 col-lg-7 offset-4 mb-2">Select PAM type between 'NGG' and 'NG'</b>
+            </span>
+            <span class="row">
+                <span class="text-center col-lg-4" style="font-weight: bolder">DIRECTION</span>
+                <select class="col-lg-7 text-center" aria-label="direction" name="DIRECTION">
+                    <option value="install">install</option>
+                    <option value="correct">correct</option>
+                </select>
+            </span>
+            <span class="row">
+                <b class="text-black-50 col-lg-7 offset-4 mb-2">Select edit direction which means to install or correct pathogenic human genetic variants</b>
+            </span>
+            <span class="row">
+                <span class="text-center col-lg-4" style="font-weight: bolder">ASSEMBLY</span>
+                <select class="col-lg-7 text-center" aria-label="direction" name="GENOME">
+                    <option value="human">GRCh38</option>
+                </select>
+            </span>
+
+            <div class="col-lg-10 mx-auto">
+                <a href="{% url 'opedvar_his' %}" class="col-lg-3 mt-4 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
+                        <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path>
+                        <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path>
+                        <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path>
+                    </svg>HISTORY
+                </a>
+                <input type="submit" class="btn btn-primary col-lg-4 offset-1 mt-4 mb-4" value="Submit" >
+                <input type="reset" class="btn btn-primary col-lg-4 mt-4 mb-4" value="Reset">
+            </div>
+        </form>
+        {% if start %}
+            {% if err == "NO ERROR" %}
+                <h2>Prime Editing Design Results:</h2>
+                <a href="{% url 'opedvar_dl' %}?uid={{ uid }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                        <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"></path>
+                        <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"></path>
+                    </svg>Download
+                </a>
+                <div style="overflow-x: scroll;">
+                    <table class="table table-striped text-center" style="font-size: 18px;" id="file_table" >
+                        <thead>
+                            <tr>
+                                <th>{{ query.queryType }}</th>
+                                <th>Type</th>
+                                <th>Chromosome</th>
+                                <th>Start</th>
+                                <th>Stop</th>
+                                <th>ReferenceAllele</th>
+                                <th>AlternateAllele</th>
+                                <th>Strand</th>
+                                <th>Spacer</th>
+                                <th>PBS</th>
+                                <th>RTT</th>
+                                <th>EditToNickDistance</th>
+                                <th>sgRNASpacer</th>
+                                <th>NickToNickDistance</th>
+                                <th>PAM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for index, r  in info_list.iterrows %}
+                                <tr>
+                                    <td>{{ query.queryItem }}</td>
+                                    <td>{{ r.Type }}</td>
+                                    <td>{{ r.Chromosome }}</td>
+                                    <td>{{ r.Start }}</td>
+                                    <td>{{ r.Stop }}</td>
+                                    <td>{{ r.ReferenceAllele }}</td>
+                                    <td>{{ r.AlternateAllele }}</td>
+                                    <td>{{ r.Strand }}</td>
+                                    <td>{{ r.Spacer }}</td>
+                                    <td>{{ r.PBS }}</td>
+                                    <td>{{ r.RT }}</td>
+                                    <td>{{ r.EditToNickDistance }}</td>
+                                    <td>{{ r.sgRNASpacer }}</td>
+                                    <td>{{ r.NickToNickDistance }}</td>
+                                    <td>{{ r.PAM }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h1 style="margin: 30px">{{ err }}</h1>
+                    </div>
+                </div>
+                <script src="{% static 'js/popup.js' %}"></script>
+            {% endif %}
+            <div id="igv-div">
+            ·
+        </div>
+        {% endif %}
+
+
+        {% ifequal start_history 1 %}
+            <div class="container">
+                <table style="margin:0 auto;text-align: center;" class="table table-bordered overflow-auto table-striped">
+                    <thead>
+                        <tr style="text-align: center" class="success">
+                            <th>UID</th>
+                            <th>Query Type</th>
+                            <th>Query Item</th>
+                            <th>PAM</th>
+                            <th>Direction</th>
+                        </tr>
+                    </thead>
+                    {% for u in contacts %}
+                        <tr class="info">
+                            <td><a href="{% url 'detail_opedvar' %}?uid={{u.UID}}" type="button" style="text-decoration: underline;">{{ u.UID }}</a></td>
+                            <td>{{ u.queryType}}</td>
+                            <td>{{ u.queryItem }}</td>
+                            <td>{{ u.PAM }}</td>
+                            <td>{{ u.DIRECTION }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="navigation " >
+                <ul class="list-inline text-end">
+                    {% if contacts.has_previous %}
+                        <li class="list-inline-item"><a href="?page={{ contacts.previous_page_number}}" class="mr-2">Previous</a></li>
+                    {% endif %}
+                    {% for pg in pgrange %}
+                        {% if contacts.number == pg %}
+                            <li class="list-inline-item">{{ pg }}</li>
+                        {% else %}
+                            <li class="list-inline-item"><a href="?page={{ pg }}">{{ pg }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if contacts.has_next%}
+                        <li class="list-inline-item"> <a href="?page={{ contacts.next_page_number }}" class="offset-3" >Next</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endifequal %}
+
+        {% ifequal start_history 2 %}
+            <div class="container" style="overflow-x: scroll;">
+                <div id="history_container" >
+                    <a href="{% url 'opedvar_dl' %}?uid={{ uid }}" class="mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                            <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"></path>
+                            <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"></path>
+                        </svg>Download
+                    </a>
+                    <table class="table text-center" style="font-size: 18px;">
+                        <thead>
+                            <tr>
+                                <th>{{ query.queryType }}</th>
+                                <th>Type</th>
+                                <th>Chromosome</th>
+                                <th>Start</th>
+                                <th>Stop</th>
+                                <th>ReferenceAllele</th>
+                                <th>AlternateAllele</th>
+                                <th>Strand</th>
+                                <th>Spacer</th>
+                                <th>PBS</th>
+                                <th>RTT</th>
+                                <th>EditToNickDistance</th>
+                                <th>sgRNASpacer</th>
+                                <th>NickToNickDistance</th>
+                                <th>PAM</th>
+                            </tr>
+                        </thead>
+                        {% for index,r in contacts_df.iterrows %}
+                            <tr class="info">
+                                <td>{{ query.queryItem }}</td>
+                                <td>{{ r.Type }}</td>
+                                <td>{{ r.Chromosome }}</td>
+                                <td>{{ r.Start }}</td>
+                                <td>{{ r.Stop }}</td>
+                                <td>{{ r.ReferenceAllele }}</td>
+                                <td>{{ r.AlternateAllele }}</td>
+                                <td>{{ r.Strand }}</td>
+                                <td>{{ r.Spacer }}</td>
+                                <td>{{ r.PBS}}</td>
+                                <td>{{ r.RT }}</td>
+                                <td>{{ r.EditToNickDistance }}</td>
+                                <td>{{ r.sgRNASpacer }}</td>
+                                <td>{{ r.NickToNickDistance }}</td>
+                                <td>{{ query.PAM }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% endifequal %}
+    </div>
+{%endblock%}
