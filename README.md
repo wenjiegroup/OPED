@@ -1,6 +1,6 @@
 # OPED
 
-OPED is a Optimized Prime Editing Design based on deep learning and transfer learning.
+OPED is Optimizing Prime Editing Design based on deep learning and transfer learning.
 
 ## Platform:
 
@@ -20,6 +20,10 @@ conda install -c anaconda virtualenv
 conda install uwsgi
 
 pip install biopython
+
+# nginx is required for HTTP and reverse proxy
+# sudo apt update
+# sudo apt install nginx
 ```
 
 ## How to Run:
