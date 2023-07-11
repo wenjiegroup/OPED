@@ -1,6 +1,6 @@
 # OPED
 
-OPED is a Optimized Prime Editing Design based on deep learning and transfer learning.
+OPED is Optimizing Prime Editing Design based on deep learning and transfer learning.
 
 ## Platform:
 
