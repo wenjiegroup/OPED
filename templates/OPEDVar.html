@@ -97,6 +97,9 @@
                     <table class="table table-striped text-center" style="font-size: 18px;" id="file_table" >
                         <thead>
                             <tr>
+                                {% if query.queryType != 'AlleleID' %}
+                                    <th>AlleleID</th>
+                                {% endif %}
                                 <th>{{ query.queryType }}</th>
                                 <th>Type</th>
                                 <th>Chromosome</th>
@@ -117,6 +120,9 @@
                         <tbody>
                             {% for index, r  in info_list.iterrows %}
                                 <tr>
+                                    {% if query.queryType != 'AlleleID' %}
+                                        <td>{{ r.AlleleID }}</td>
+                                    {% endif %}
                                     <td>{{ query.queryItem }}</td>
                                     <td>{{ r.Type }}</td>
                                     <td>{{ r.Chromosome }}</td>
@@ -207,6 +213,9 @@
                     <table class="table text-center" style="font-size: 18px;">
                         <thead>
                             <tr>
+                                {% if query.queryType != 'AlleleID' %}
+                                    <th>AlleleID</th>
+                                {% endif %}
                                 <th>{{ query.queryType }}</th>
                                 <th>Type</th>
                                 <th>Chromosome</th>
@@ -226,6 +235,9 @@
                         </thead>
                         {% for index,r in contacts_df.iterrows %}
                             <tr class="info">
+                                {% if query.queryType != 'AlleleID' %}
+                                    <td>{{ r.AlleleID }}</td>
+                                {% endif %}
                                 <td>{{ query.queryItem }}</td>
                                 <td>{{ r.Type }}</td>
                                 <td>{{ r.Chromosome }}</td>
